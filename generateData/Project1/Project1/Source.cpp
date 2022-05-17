@@ -113,6 +113,7 @@ void Screenbmp(int** code, HWND hwnd, string path, int left, int top, int small_
 			int curr_top = top + small_height * j;
 			HBITMAP hBitmap = CreateCompatibleBitmap(hScreenDC, small_width, small_height);
 			SelectObject(hMemoryDC, hBitmap);
+			//StretchBlt(hMemoryDC, 0, 0, small_width / 2, small_height / 2, hScreenDC, curr_left, curr_top, small_width, small_height, SRCCOPY);
 			BitBlt(hMemoryDC, 0, 0, small_width, small_height, hScreenDC, curr_left, curr_top, SRCCOPY);
 			BITMAP bmp;
 			GetObject(hBitmap, sizeof(BITMAP), &bmp);
@@ -138,10 +139,11 @@ int main() {
 	cout << GetWindowRect(hwnd, lprect) << endl;
 	cout << lprect->left << " " << lprect->top << " " << lprect->right << " " << lprect->bottom;
 	const char* p = "C:\\Users\\Chenz\\Desktop\\dataset\\";
+	if (!IsPathExist(p))std::filesystem::create_directory(p);
 
 	// set up type arrays
 
-	int target_ratio = 1;	// configurable
+	int target_ratio = 15;	// configurable
 	int target_num = 5 * target_ratio;	// do not change
 	for (int i = 0; i < total_type - 1; i++) type[i] = m.type[i];
 	type[total_type - 1] = -1;
